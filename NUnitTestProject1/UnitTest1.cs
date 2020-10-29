@@ -7,13 +7,17 @@ namespace NUnitTestProject1
 {
     public class Tests
     {
-        // File paths
+        // Headers String
+        public static string indianStateCensusHeaders = "State,Population,AreaInSqKm,DensityPerSqKm";
+        public static string indianStateCodeHeaders = "SrNo,State Name,TIN,StateCode";
+
+        // TC 1.1 : File paths
         public static string indianStateCensusFilePath = @"C:\Users\hp\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFiles\IndiaStateCensusData.csv";
         public static string indianStateCodeFilePath = @"C:\Users\hp\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFiles\IndiaStateCode.csv";
 
-        // Headers String
-        public static string indianStateCensusHeaders = "State,Population,AreaInSqKm,DensityPerSqKm";
-        public static string indianStateCodeHeaders = "SrNo,State Name,TIN,StateCode";                
+        // TC 1.2 : Wrong File Paths
+        public static string indianStateCensusWrongFilePath = @"C:\Users\hp\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFiles1\IndiaStateCensusData.csv";
+        public static string indianStateCodeWrongFilePath = @"C:\Users\hp\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFiles1\IndiaStateCode.csv";
 
         CensusAnalyser censusAnalyser;
         Dictionary<string, CensusDTO> totalRecord;
@@ -40,6 +44,18 @@ namespace NUnitTestProject1
             stateRecord = censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, indianStateCodeFilePath, indianStateCodeHeaders);
             Assert.AreEqual(29, totalRecord.Count);
             Assert.AreEqual(37, stateRecord.Count);
+        }
+
+        /// <summary>
+        /// TC 1.2 : Given the wrong file path for indian state census data file should throw custom exception.
+        /// </summary>
+        [Test]
+        public void GivenWrongIndianStateCensusDataFile_ShouldThrowCustomException()
+        {
+            var indianStateCensusResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, indianStateCensusWrongFilePath, indianStateCensusHeaders));
+            var stateCodeResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, indianStateCodeWrongFilePath, indianStateCodeHeaders));
+            Assert.AreEqual(CensusAnalyserException.Exception.FILE_NOT_FOUND, stateCodeResult.exception);
+            Assert.AreEqual(CensusAnalyserException.Exception.FILE_NOT_FOUND, indianStateCensusResult.exception);
         }
     }
 }

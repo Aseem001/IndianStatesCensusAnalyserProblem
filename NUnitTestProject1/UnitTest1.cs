@@ -27,6 +27,10 @@ namespace NUnitTestProject1
         public static string delimeterIndianStateCensusFilePath = @"C:\Users\hp\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFiles\DelimiterIndiaStateCensusData.csv";
         public static string delimeterIndianStateCodeFilePath = @"C:\Users\hp\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFiles\DelimiterIndiaStateCode.csv";
 
+        // TC 1.5 : Incorrect CSV Header
+        public static string wrongHeaderIndianStateCensusFile = @"C:\Users\hp\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFiles\WrongIndiaStateCensusData.csv";
+        public static string wrongHeaderIndianStateCodeFile = @"C:\Users\hp\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFiles\WrongIndiaStateCode.csv";
+
         CensusAnalyser censusAnalyser;
         Dictionary<string, CensusDTO> totalRecord;
         Dictionary<string, CensusDTO> stateRecord;
@@ -88,6 +92,18 @@ namespace NUnitTestProject1
             var stateCodeResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, delimeterIndianStateCodeFilePath, indianStateCodeHeaders));
             Assert.AreEqual(CensusAnalyserException.Exception.INCORRECT_DELIMITER, indianStateCensusResult.exception);
             Assert.AreEqual(CensusAnalyserException.Exception.INCORRECT_DELIMITER, stateCodeResult.exception);
+        }
+
+        /// <summary>
+        /// TC 1.5 : Givens the state census CSV file when correct but CSV header incorrect should throw custom exception.
+        /// </summary>
+        [Test]
+        public void GivenStateCensusCSVFileWhenCorrectButCSVHeaderIncorrect_ShouldThrowCustomException()
+        {
+            var indianStateCensusResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, wrongHeaderIndianStateCensusFile, indianStateCensusHeaders));
+            var stateCodeResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, wrongHeaderIndianStateCodeFile, indianStateCodeHeaders));
+            Assert.AreEqual(CensusAnalyserException.Exception.INCORRECT_HEADER, indianStateCensusResult.exception);
+            Assert.AreEqual(CensusAnalyserException.Exception.INCORRECT_HEADER, stateCodeResult.exception);
         }
     }
 }

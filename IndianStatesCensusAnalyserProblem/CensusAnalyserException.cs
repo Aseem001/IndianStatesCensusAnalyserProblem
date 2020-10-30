@@ -1,9 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CensusAnalyserException.cs" company="Bridgelabz">
+//   Copyright © 2018 Company
+// </copyright>
+// <creator Name="Aseem Anand"/>
+// --------------------------------------------------------------------------------------------------------------------
 namespace IndianStatesCensusAnalyserProblem
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    /// <summary>
+    /// Custom Exception class
+    /// </summary>
+    /// <seealso cref="System.Exception" />
     public class CensusAnalyserException : Exception
     {
         public Exception exception;

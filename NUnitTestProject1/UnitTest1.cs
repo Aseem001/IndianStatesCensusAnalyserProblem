@@ -32,8 +32,9 @@ namespace NUnitTestProject1
         public static string wrongHeaderIndianStateCodeFile = @"C:\Users\hp\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFiles\WrongIndiaStateCode.csv";
 
         CensusAnalyser censusAnalyser;
-        Dictionary<string, CensusDTO> totalRecord;        
-        
+        Dictionary<string, CensusDTO> totalRecord;
+        Dictionary<string, CensusDTO> stateRecord;
+
         [SetUp]
         /// <summary>
         /// Sets up the instances.
@@ -41,7 +42,8 @@ namespace NUnitTestProject1
         public void Setup()
         {
             censusAnalyser = new CensusAnalyser();
-            totalRecord = new Dictionary<string, CensusDTO>();            
+            totalRecord = new Dictionary<string, CensusDTO>();
+            stateRecord = new Dictionary<string, CensusDTO>();
         }
 
         /// <summary>
@@ -85,13 +87,23 @@ namespace NUnitTestProject1
         }
 
         /// <summary>
-        /// TC 1.5 : Givens the state census CSV file when correct but CSV header incorrect should throw custom exception.
+        /// TC 1.5 : Given the state census CSV file when correct but CSV header incorrect should throw custom exception.
         /// </summary>
         [Test]
         public void GivenStateCensusCSVFileWhenCorrectButCSVHeaderIncorrect_ShouldThrowCustomException()
         {
             var indianStateCensusResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, wrongHeaderIndianStateCensusFile, indianStateCensusHeaders));            
             Assert.AreEqual(CensusAnalyserException.Exception.INCORRECT_HEADER, indianStateCensusResult.exception);            
+        }
+
+        /// <summary>
+        /// TC 2.1 : Given the indian state code data file when read should return data count.
+        /// </summary>
+        [Test]
+        public void GivenIndianStateCodeDataFile_WhenRead_ShouldReturnDataCount()
+        {            
+            stateRecord = censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, indianStateCodeFilePath, indianStateCodeHeaders);
+            Assert.AreEqual(37, stateRecord.Count);
         }
     }
 }

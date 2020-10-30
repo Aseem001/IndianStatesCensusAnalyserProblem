@@ -105,5 +105,15 @@ namespace NUnitTestProject1
             stateRecord = censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, indianStateCodeFilePath, indianStateCodeHeaders);
             Assert.AreEqual(37, stateRecord.Count);
         }
+
+        /// <summary>
+        /// TC 2.2 : Given the wrong file path for indian state code data file should throw custom exception.
+        /// </summary>
+        [Test]
+        public void GivenWrongIndianStateCodeDataFile_ShouldThrowCustomException()
+        {
+            var stateCodeResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, indianStateCodeWrongFilePath, indianStateCodeHeaders));
+            Assert.AreEqual(CensusAnalyserException.Exception.FILE_NOT_FOUND, stateCodeResult.exception);
+        }
     }
 }

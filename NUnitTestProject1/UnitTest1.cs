@@ -125,5 +125,15 @@ namespace NUnitTestProject1
             var stateCodeResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, wrongIndianStateCodeFileType, indianStateCodeHeaders));
             Assert.AreEqual(CensusAnalyserException.Exception.INVALID_FILE_TYPE, stateCodeResult.exception);
         }
+
+        /// <summary>
+        /// TC 2.4 : Given the state census CSV file when correct but delimeter incorrect should throw custom exception.
+        /// </summary>
+        [Test]
+        public void GivenStateCodeCSVFileWhenCorrectButDelimeterIncorrect_ShouldThrowCustomException()
+        {
+            var stateCodeResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, delimeterIndianStateCodeFilePath, indianStateCodeHeaders));
+            Assert.AreEqual(CensusAnalyserException.Exception.INCORRECT_DELIMITER, stateCodeResult.exception);
+        }
     }
 }

@@ -115,5 +115,15 @@ namespace NUnitTestProject1
             var stateCodeResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, indianStateCodeWrongFilePath, indianStateCodeHeaders));
             Assert.AreEqual(CensusAnalyserException.Exception.FILE_NOT_FOUND, stateCodeResult.exception);
         }
+
+        /// <summary>
+        /// TC 2.3 : Given the wrong indian state code data file type should throw custom exceotion.
+        /// </summary>
+        [Test]
+        public void GivenWrongIndianStateCodeDataFileType_ShouldThrowCustomExceotion()
+        {
+            var stateCodeResult = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(CensusAnalyser.Country.INDIA, wrongIndianStateCodeFileType, indianStateCodeHeaders));
+            Assert.AreEqual(CensusAnalyserException.Exception.INVALID_FILE_TYPE, stateCodeResult.exception);
+        }
     }
 }
